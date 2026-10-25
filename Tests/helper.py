@@ -217,6 +217,10 @@ def mark_if_feature_version(
 
 
 @pytest.mark.skipif(sys.platform.startswith("win32"), reason="Requires Unix or macOS")
+@pytest.mark.skipif(
+    hasattr(sys, "pypy_translation_info"),
+    reason="PyPy's garbage collector makes RSS-based leak checks unreliable",
+)
 class PillowLeakTestCase:
     # requires unix/macOS
     iterations = 100  # count
